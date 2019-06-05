@@ -151,4 +151,48 @@ enum PinyinUtil {
 	public void insertPinyin(String word, String[] pinyins) {
 		polyphoneDict.add(word, pinyins);
 	}
+
+	/**
+	 * 清空拼音及多音字字典
+	 */
+	public void clearPinyin(){
+		polyphoneDict.clear();
+	}
+
+	/**
+	 * 对拼音插件定向开发方法，适用于拼音热加载远程多音字字典
+	 * @param in
+	 */
+	public void loadPolyphoneMappingForPinyin(BufferedReader in) {
+
+		try {
+
+			String line = null;
+			while (null != (line = in.readLine())) {
+				// line = line.trim();
+				if (line.length() == 0 || line.startsWith(SHARP)) {
+					continue;
+				}
+				String[] pair = line.split(EQUAL);
+
+				if (pair.length < 2) {
+					continue;
+				}
+				maxLen = maxLen < pair[0].length() ? pair[0].length() : maxLen;
+
+				polyphoneDict.add(pair[0], pair[1].split(SPACE));
+
+			}
+			//由于在Pinyin插件中需要配合清除方法使用，清除方法会把拼音字典及多音字字典都清除，所以此处再次加载拼音字典
+            loadPinyinMapping();
+			in.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
 }

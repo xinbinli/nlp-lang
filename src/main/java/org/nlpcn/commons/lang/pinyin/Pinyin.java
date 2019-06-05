@@ -1,5 +1,6 @@
 package org.nlpcn.commons.lang.pinyin;
 
+import java.io.BufferedReader;
 import java.util.List;
 
 public class Pinyin {
@@ -92,6 +93,21 @@ public class Pinyin {
 	 */
 	public static void insertPinyin(String word, String[] pinyins) {
 		PinyinUtil.INSTANCE.insertPinyin(word, pinyins);
+	}
+
+	/**
+	 * 清除已加载到内存的拼音及多音字字典
+	 */
+	public static void clearPinyin(){
+		PinyinUtil.INSTANCE.clearPinyin();
+	}
+
+	/**
+	 * 对拼音插件定向开发方法，适用于拼音热加载远程多音字字典
+	 * @param in
+	 */
+	public static void loadPolyphoneMappingForPinyin(BufferedReader in){
+		PinyinUtil.INSTANCE.loadPolyphoneMappingForPinyin(in);
 	}
 
 	/**
